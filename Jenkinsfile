@@ -23,6 +23,7 @@ pipeline {
                         sh "ssh root@192.168.30.128 kubectl create -f nodejsapp.yml"
                     }
                 }
+                }
                            
                 
             }                    
