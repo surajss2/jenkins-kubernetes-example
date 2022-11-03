@@ -14,9 +14,16 @@ pipeline {
         }
         stage("deploying to k8s cluster"){
             steps{
-                
-                sh "scp nodejsapp.yaml root@192.168.30.128:/root"
-                sh "ssh root@192.168.30.28 kubectl apply -f nodejsapp.yml"              
+                sshagent(['k8s']) {
+                sh "scp -o StrictHostKeyChecking=no nodejsapp.yaml root@192.168.30.128:/root"
+                script {
+                    try{
+                        sh "ssh root@192.168.30.128 kubectl apply -f nodejsapp.yml"
+                    }catch(error){
+                        sh "ssh root@192.168.30.128 kubectl create -f nodejsapp.yml"
+                    }
+                }
+                           
                 
             }                    
         }
