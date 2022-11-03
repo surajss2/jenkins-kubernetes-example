@@ -12,23 +12,18 @@ pipeline {
                 sh ' docker push suraj435/nodejsapp-1.0:v1'
             }
         }
-        stage("deploying to k8s cluster"){
+        stage("copy the manifest file on Ansible server"){
             steps{
-                sshagent(['k8s']) {
-                sh "scp -o StrictHostKeyChecking=no nodejsapp.yaml root@192.168.30.128:/root"
-                script {
-                    try{
-                        sh "ssh root@192.168.30.128 kubectl apply -f nodejsapp.yml"
-                    }catch(error){
-                        sh "ssh root@192.168.30.128 kubectl create -f nodejsapp.yml"
-                    }
-                }
-                }
-                           
-                
-            }                    
-        }
-                
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'jenkins', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'rsync -avh /var/lib/jenkins/workspace/docker-k8-PipelineProject/*.yaml  root@192.168.30.138:/opt', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '/')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+            }
+        } 
+        stage("Run the playbook file"){
+            steps{
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible_server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'ansible-playbook /opt/ansibleK8s.yml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '/')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+
+            }
+        }                          
+                        
     }
     
 }
