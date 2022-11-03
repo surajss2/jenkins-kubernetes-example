@@ -16,8 +16,7 @@ pipeline {
             steps{
                 sshagent(['K8s']) {
                 sh "scp -o StrictHostKeyChecking=no nodejsapp.yaml root@192.168.30.128:/root"
-                script {
-                    sh "ssh root@192.168.30.28 kubectl apply -f nodejsapp.yml"              
+                sh "ssh root@192.168.30.28 kubectl apply -f nodejsapp.yml"              
                 }
             }                    
         }
