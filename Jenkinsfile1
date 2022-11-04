@@ -14,7 +14,7 @@ pipeline {
         }
         stage("deploying to k8s cluster"){
             steps{
-                sshagent(['k8s']) {
+                sshagent(credentials:['k8s']) {
                 sh "scp -o StrictHostKeyChecking=no nodejsapp.yaml root@192.168.30.128:/root/opt"
                 script {
                     try{
