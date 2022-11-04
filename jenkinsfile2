@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+   
+    stages {
+        stage('Building the Docker image') {
+            steps {
+                sh 'docker build -t suraj435/nodejsapp-1.0:v1 .'
+            }
+        }
+        stage("Push the docker image to docker Hub"){
+            steps {
+                sh ' docker push suraj435/nodejsapp-1.0:v1'
+            }
+        }
+        stage("copy the manifest file on Ansible server"){
+            steps{
+                sh 'ansible-playbook copy.yml'
+            }
+        } 
+        stage("Run the playbook file"){
+            steps{
+                sh 'ansible-playbook runk8s.yml
+
+            }
+        }                          
+                        
+    }
+    
+}
