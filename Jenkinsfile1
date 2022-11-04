@@ -19,9 +19,9 @@ pipeline {
                 script {
                     try{
                         
-                        sh "ssh root@192.168.30.128 kubectl apply -f nodejsapp.yml"
+                        sh "ssh root@192.168.30.128 kubectl apply -f /root/nodejsapp.yml"
                     }catch(error){
-                        sh "ssh root@192.168.30.128 kubectl create -f nodejsapp.yml"
+                        sh "ssh root@192.168.30.128 kubectl create -f /root/nodejsapp.yml"
                     }
                 }
                 }
