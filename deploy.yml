@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: yes
+  tasks: 
+  - name: copy the manifest file in k8s cluster
+    copy: 
+      src: /home/jenkins/workspace/nodejsapp.yaml
+      dest: /opt
+  - name: Run the manifest file in k8s cluster
+    command: kubectl apply -f /opt/nodejsapp.yaml
