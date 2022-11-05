@@ -1,8 +1,7 @@
 ---
 - hosts: all
-  become: yes
-  tasks: 
-  - name: copy the manifest file in k8s cluster
-    copy: 
-      src: /home/jenkins/workspace/nodejsapp.yaml
+  tasks:
+   - name: copy the manifest file in k8s cluster
+     copy:
+      src: /home/jenkins/workspace/docker-k8-PipelineProject/nodejsapp.yaml
       dest: /opt
