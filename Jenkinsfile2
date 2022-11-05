@@ -19,7 +19,7 @@ pipeline {
         } 
         stage("Run the playbook file"){
             steps{
-                sh 'ansible-playbook runk8s.yml
+                sh 'ansible-playbook runk8s.yml'
 
             }
         }                          
