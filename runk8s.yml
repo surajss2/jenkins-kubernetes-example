@@ -1,0 +1,6 @@
+---
+- hosts: all
+  become: yes
+  tasks: 
+  - name: Run the manifest file in k8s cluster
+    command: kubectl apply -f /opt/nodejsapp.yaml
