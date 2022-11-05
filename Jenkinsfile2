@@ -12,12 +12,12 @@ pipeline {
                 sh ' docker push suraj435/nodejsapp-1.0:v1'
             }
         }
-        stage("copy the manifest file on Ansible server"){
+        stage("copy the manifest file to k8s cluster"){
             steps{
                 sh 'ansible-playbook copy.yml'
             }
         } 
-        stage("Run the playbook file"){
+        stage("Run the manifest file on cluster"){
             steps{
                 sh 'ansible-playbook runk8s.yml'
 
